@@ -1,0 +1,47 @@
+<!-- templates/index.html -->
+{% extends "base.html" %}
+
+{% block content %}
+{% if error %}
+    <div class="error">{{ error }}</div>
+{% else %}
+    <div class="rotation-info">
+        <h2>Current Rotation</h2>
+        <p><strong>Week of:</strong> {{ rotation_info.date.strftime('%B %d, %Y') }}</p>
+        <p><strong>Game Version:</strong> {{ rotation_info.version }}</p>
+    </div>
+
+    {% if regular_rotation %}
+    <div class="rotation-section">
+        <h2 class="section-title">🔥 Free Champion Rotation</h2>
+        <div class="champions-grid">
+            {% for champion in regular_rotation %}
+            <div class="champion-card">
+                <img src="{{ champion.image_url }}" alt="{{ champion.name }}" class="champion-image" onerror="this.src='https://ddragon.leagueoflegends.com/cdn/img/champion/loading/{{ champion.champion_key }}_0.jpg'">
+                <div class="champion-name">{{ champion.name }}</div>
+                <div class="champion-title">{{ champion.title }}</div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+    {% endif %}
+
+    {% if newbie_rotation %}
+    <div class="rotation-section">
+        <h2 class="section-title">🌟 New Player Rotation</h2>
+        <div class="newbie-info">
+            <strong>Note:</strong> Available for players level 10 and below
+        </div>
+        <div class="champions-grid">
+            {% for champion in newbie_rotation %}
+            <div class="champion-card">
+                <img src="{{ champion.image_url }}" alt="{{ champion.name }}" class="champion-image" onerror="this.src='https://ddragon.leagueoflegends.com/cdn/img/champion/loading/{{ champion.champion_key }}_0.jpg'">
+                <div class="champion-name">{{ champion.name }}</div>
+                <div class="champion-title">{{ champion.title }}</div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+    {% endif %}
+{% endif %}
+{% endblock %}

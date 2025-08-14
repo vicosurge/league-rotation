@@ -1,0 +1,48 @@
+<!-- templates/history.html -->
+{% extends "base.html" %}
+
+{% block title %}Rotation History - League of Legends{% endblock %}
+{% block subtitle %}Historical Champion Rotations{% endblock %}
+
+{% block content %}
+{% if error %}
+    <div class="error">{{ error }}</div>
+{% else %}
+    <div class="rotation-section">
+        <h2 class="section-title">📊 Rotation History</h2>
+        
+        {% if history_data %}
+        <div style="overflow-x: auto;">
+            <table style="width: 100%; border-collapse: collapse; margin-top: 20px;">
+                <thead>
+                    <tr style="background: rgba(200, 155, 60, 0.2); border-bottom: 2px solid #c89b3c;">
+                        <th style="padding: 15px; text-align: left; color: #c89b3c;">Date</th>
+                        <th style="padding: 15px; text-align: left; color: #c89b3c;">Version</th>
+                        <th style="padding: 15px; text-align: left; color: #c89b3c;">Type</th>
+                        <th style="padding: 15px; text-align: left; color: #c89b3c;">Champions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for rotation in history_data %}
+                    <tr style="border-bottom: 1px solid #463714; transition: background 0.3s ease;" onmouseover="this.style.background='rgba(200, 155, 60, 0.1)'" onmouseout="this.style.background='transparent'">
+                        <td style="padding: 12px;">{{ rotation.rotation_date.strftime('%B %d, %Y') }}</td>
+                        <td style="padding: 12px;">{{ rotation.game_version }}</td>
+                        <td style="padding: 12px;">
+                            {% if rotation.newbie_rotation %}
+                                <span style="color: #c89b3c;">New Player</span>
+                            {% else %}
+                                <span style="color: #f0e6d2;">Regular</span>
+                            {% endif %}
+                        </td>
+                        <td style="padding: 12px;">{{ rotation.champion_count }} champions</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+        {% else %}
+        <p style="text-align: center; color: #a09b8c; margin-top: 20px;">No rotation history found.</p>
+        {% endif %}
+    </div>
+{% endif %}
+{% endblock %}
